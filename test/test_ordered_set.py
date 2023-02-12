@@ -7,7 +7,7 @@ import sys
 
 import pytest
 
-from ordered_set import OrderedSet
+from stableset import OrderedSet
 
 
 def test_pickle():
