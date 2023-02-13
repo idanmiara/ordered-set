@@ -10,3 +10,5 @@ dist/
 htmlcov
 .eggs
 .venv
+.python-version
+build

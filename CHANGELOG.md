@@ -2,6 +2,15 @@
 
 Significant changes in major and minor releases of this library:
 
+## Version 5.1 (February 2022)
+
+- Forked from `ordered-set`: Module name changed `ordered_set` -> `stableset`, Released in PyPi as: `stableset`.
+- Major refactor.
+- Added a StableSet implementation, as a base class for OrderedSet.
+- Added Many functions to OrderedSet, to be more complete and more compatible with other implementations.
+- Added many new tests, and all the tests from 2 other implementations.
+- Minimum Python version is 3.8.
+
 ## Version 4.1 (January 2022)
 
 - Packaged using flit. Wheels now exist, and setuptools is no longer required.
