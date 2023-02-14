@@ -81,7 +81,7 @@ class StableSet(MutableSet[T], Sequence[T]):
     StableSet is meant to be a drop-in replacement for `set` when iteration in insertion order
     is the only additional requirement over the built-in `set`.
 
-    Equality: StableSet, like `set` and `dict_keys` [dict.keys()], and unlike OrderdSet,
+    Equality: StableSet, like `set` and `dict_keys` [dict.keys()], and unlike OrderedSet,
     disregards the items order when checking equality.
     Like `set` it may be equal only to other instances of AbstractSet
     (like `set`, `dict_keys` or StableSet).
@@ -684,12 +684,12 @@ class StableSet(MutableSet[T], Sequence[T]):
 
 class StableSetEq(StableSet[T]):
     """
-    StableSetEq is a StableSet with a modified quality operator.
+    StableSetEq is a StableSet with a modified equality operator.
 
-    StableSetEq, like `set` and `dict_keys` [dict.keys()], and unlike OrderdSet,
+    StableSetEq, like `set` and `dict_keys` [dict.keys()], and unlike OrderedSet,
     disregards the items order when checking equality.
     Unlike StableSet, `set`, or `dict_keys` - A StableSetEq can also equal be equal to a Sequence:
-    `StableSet([1, 2]) == [1, 2]` and `StableSet([1, 2]) == [2, 1]`; but `set([1, 2]) != [1, 2]`
+    `StableSetEq([1, 2]) == [1, 2]` and `StableSetEq([1, 2]) == [2, 1]`; but `set([1, 2]) != [1, 2]`
     """
 
     def __eq__(self, other: Any) -> bool:
@@ -757,7 +757,7 @@ class OrderedSet(StableSet[T]):
 
     In some aspects OrderedSet behaves like a `set` and in other aspects it behaves like a list.
 
-    Equality: OrderedSet, like `list` and `odict_keys` [OrderdDict.keys()], and unlike OrderdSet,
+    Equality: OrderedSet, like `list` and `odict_keys` [OrderdDict.keys()], and unlike OrderedSet,
     regards the items order when checking equality.
     Unlike `set`, An OrderedSet can also equal be equal to a Sequence:
     `StableSet([1, 2]) == [1, 2]` and `StableSet([1, 2]) != [2, 1]`; but `set([1, 2]) != [1, 2]`
