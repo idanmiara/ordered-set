@@ -442,78 +442,88 @@ def test_repr(set_t):
 
 @pytest.mark.parametrize("lst", datasets)
 @pytest.mark.parametrize("set_t", stable_and_ordered_sets)
-def test_subset(set_t, lst: list):
+def test_issubset(set_t, lst: list):
     oset1 = set_t([1, 2, 3])
     oset2 = set_t([1, 2, 3, 4])
     oset3 = set_t([1, 2, 4, 3])
     oset4 = set_t([1, 3, 2, 4])
 
+    assertTrue(oset1 < oset2)
+    assertTrue(oset1 < oset3)
+    assertFalse(oset2 < oset3)
+    assertTrue(oset1 < oset4)
+
+    assertTrue(oset2 > oset1)
+    assertTrue(oset3 > oset1)
+    assertFalse(oset3 > oset2)
+    assertTrue(oset4 > oset1)
+
+    oset1 = set_t([1, 2, 3])
+    oset2 = set_t([6, 1, 2, 5, 3, 4])
+    oset3 = set_t([6, 1, 2, 5, 4, 3])
+    oset4 = set_t([6, 1, 3, 5, 2, 4])
+
+    assertTrue(oset1 < oset2)
+    assertTrue(oset1 < oset3)
+    assertFalse(oset2 < oset3)
+    assertTrue(oset1 < oset4)
+
+    assertTrue(oset2 > oset1)
+    assertTrue(oset3 > oset1)
+    assertFalse(oset3 > oset2)
+    assertTrue(oset4 > oset1)
+
+
+@pytest.mark.parametrize("lst", datasets)
+@pytest.mark.parametrize("set_t", stable_and_ordered_sets)
+def test_isorderedsubset(set_t, lst: list):
+    oset1 = set_t([1, 2, 3])
+    oset2 = set_t([6, 1, 2, 5, 3, 4])
+    oset3 = set_t([6, 1, 2, 5, 4, 3])
+    oset4 = set_t([6, 1, 3, 5, 2, 4])
+
     assertTrue(oset1.isorderedsubset(oset2))
-    assertFalse(oset1.isorderedsubset(oset3))
+    assertTrue(oset1.isorderedsubset(oset3))
     assertFalse(oset2.isorderedsubset(oset3))
     assertFalse(oset1.isorderedsubset(oset4))
 
-    assertTrue(oset1 < oset2)
-    assertTrue(oset1 < oset3)
-    assertFalse(oset2 < oset3)
-    assertTrue(oset1 < oset4)
-
 
 @pytest.mark.parametrize("lst", datasets)
 @pytest.mark.parametrize("set_t", stable_and_ordered_sets)
-def test_subset_non_consecutive(set_t, lst: list):
+def test_isorderedsuperset(set_t, lst: list):
     oset1 = set_t([1, 2, 3])
     oset2 = set_t([6, 1, 2, 5, 3, 4])
     oset3 = set_t([6, 1, 2, 5, 4, 3])
     oset4 = set_t([6, 1, 3, 5, 2, 4])
 
-    assertTrue(oset1.isorderedsubset(oset2, non_consecutive=True))
-    assertTrue(oset1.isorderedsubset(oset3, non_consecutive=True))
-    assertFalse(oset2.isorderedsubset(oset3, non_consecutive=True))
-    assertFalse(oset1.isorderedsubset(oset4, non_consecutive=True))
-
-    assertTrue(oset1 < oset2)
-    assertTrue(oset1 < oset3)
-    assertFalse(oset2 < oset3)
-    assertTrue(oset1 < oset4)
-
-
-@pytest.mark.parametrize("lst", datasets)
-@pytest.mark.parametrize("set_t", stable_and_ordered_sets)
-def test_superset(set_t, lst: list):
-    oset1 = set_t([1, 2, 3])
-    oset2 = set_t([1, 2, 3, 4])
-    oset3 = set_t([1, 2, 4, 3])
-    oset4 = set_t([1, 3, 2, 4])
-
     assertTrue(oset2.isorderedsuperset(oset1))
-    assertFalse(oset3.isorderedsuperset(oset1))
+    assertTrue(oset3.isorderedsuperset(oset1))
     assertFalse(oset3.isorderedsuperset(oset2))
     assertFalse(oset4.isorderedsuperset(oset1))
 
-    assertTrue(oset2 > oset1)
-    assertTrue(oset3 > oset1)
-    assertFalse(oset3 > oset2)
-    assertTrue(oset4 > oset1)
-
 
 @pytest.mark.parametrize("lst", datasets)
 @pytest.mark.parametrize("set_t", stable_and_ordered_sets)
-def test_superset_non_consecutive(set_t, lst: list):
-    oset1 = set_t([1, 2, 3])
-    oset2 = set_t([6, 1, 2, 5, 3, 4])
-    oset3 = set_t([6, 1, 2, 5, 4, 3])
-    oset4 = set_t([6, 1, 3, 5, 2, 4])
+def test_isprefix(set_t, lst: list):
+    items1 = [1, 2, 3]
+    items2 = [1, 2, 3, 4]
+    items3 = [1, 2, 4, 3]
+    items4 = [1, 3, 2, 4]
 
-    assertTrue(oset2.isorderedsuperset(oset1, non_consecutive=True))
-    assertTrue(oset3.isorderedsuperset(oset1, non_consecutive=True))
-    assertFalse(oset3.isorderedsuperset(oset2, non_consecutive=True))
-    assertFalse(oset4.isorderedsuperset(oset1, non_consecutive=True))
+    oset1 = set_t(items1)
+    oset2 = set_t(items2)
+    oset3 = set_t(items3)
+    oset4 = set_t(items4)
 
-    assertTrue(oset2 > oset1)
-    assertTrue(oset3 > oset1)
-    assertFalse(oset3 > oset2)
-    assertTrue(oset4 > oset1)
+    assertTrue(oset1.isprefix(oset2))
+    assertFalse(oset1.isprefix(items3))
+    assertFalse(oset2.isprefix(oset3))
+    assertFalse(oset1.isprefix(items4))
+
+    assertTrue(oset2.ispostfix(oset1))
+    assertFalse(oset3.ispostfix(items1))
+    assertFalse(oset3.ispostfix(oset2))
+    assertFalse(oset4.ispostfix(items1))
 
 
 @pytest.mark.parametrize("lst", datasets)
