@@ -1,4 +1,4 @@
-[![Pypi](https://img.shields.io/pypi/v/ordered-set.svg)](https://pypi.python.org/pypi/ordered-set)
+[![Pypi](https://img.shields.io/pypi/v/stableset.svg)](https://pypi.python.org/pypi/stableset)
 
 A StableSet is a mutable set that remembers its insertion order.
 Featuring: Fast O(1) insertion, deletion, iteration and membership testing.
@@ -13,12 +13,12 @@ Both have similar interfaces but differ in respect of their implementation and p
 
 ## Installation
 
-`ordered_set` is available on PyPI and packaged as a wheel. You can list it
+`stableset` is available on PyPI and packaged as a wheel. You can list it
 as a dependency of your project, in whatever form that takes.
 
 To install it into your current Python environment:
 
-    pip install ordered-set
+    pip install stableset
 
 To install the code for development, after checking out the repository:
 
@@ -108,11 +108,10 @@ looking up a single index) and `get_indexer` (the pandas method for fancy
 indexing in reverse) are both aliases for `index` (which handles both cases
 in OrderedSet).
 
-
 ## Authors
 
-OrderedSet was implemented by Elia Robyn Lake (maiden name: Robyn Speer).
 StableSet was implemented by Idan Miara, built upon the foundations of OrderedSet.
+OrderedSet was implemented by Elia Robyn Lake (maiden name: Robyn Speer).
 Jon Crall contributed changes and tests to make it fit the Python set API.
 Roman Inflianskas added the original type annotations.
 
@@ -145,7 +144,8 @@ slightly faster iteration.
 
 ## Other implementations 
 
-The included implementation of OrderedSet is fully compatible with the following implementation:
+The included implementation of OrderedSet is fully compatible with the following implementations (which are not fully compatible with each other):
+* https://pypi.org/project/ordered-set/ - by Elia Robyn Lake (original implementation of `OrderedSet`)
 * https://pypi.org/project/orderedset/ - by Simon Percivall (faster implementation of `OrderedSet` using Cython, which currently only works for Python<3.9)
 
 The included implementation of StableSet is fully compatible with the following implementation:

@@ -20,7 +20,7 @@ __description__ = (
 __long_description__ = __doc__
 __author__ = "Elia Robyn Lake, Idan Miara"
 __author_email__ = "gh@arborelia.net, idan@miara.com"
-__url__ = "https://github.com/rspeer/ordered-set"
+__url__ = "https://github.com/idanmiara/ordered-set"
 __python_requires__ = ">=3.8"
 
 import itertools

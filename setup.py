@@ -112,6 +112,8 @@ kwargs = get_setup_kwargs(module)
 if replaces_underscores_with_dashes_in_package_name:
     kwargs['name'] = kwargs['name'].replace('_', '-')
 
+kwargs['name'] = 'stableset'
+
 setup(
     **kwargs,
     packages=packages,
