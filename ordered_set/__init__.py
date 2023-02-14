@@ -330,6 +330,7 @@ class StableSet(MutableSet[T], Sequence[T]):
         Example:
             >>> oset = StableSet()
             >>> oset.append(3)
+            0
             >>> print(oset)
             StableSet([3])
         """
@@ -346,6 +347,7 @@ class StableSet(MutableSet[T], Sequence[T]):
         Example:
             >>> oset = StableSet([1, 2, 3])
             >>> oset.update([3, 1, 5, 1, 4])
+            4
             >>> print(oset)
             StableSet([1, 2, 3, 5, 4])
         """
@@ -666,14 +668,14 @@ class StableSetEq(StableSet[T]):
         Items order is ignored.
 
         Example:
-            >>> oset = StableSet([1, 3, 2])
+            >>> oset = StableSetEq([1, 3, 2])
             >>> oset == [1, 3, 2]
             True
             >>> oset == [1, 2, 3]
             True
             >>> oset == [2, 3]
             False
-            >>> oset == StableSet([3, 2, 1])
+            >>> oset == StableSetEq([3, 2, 1])
             True
         """
 
