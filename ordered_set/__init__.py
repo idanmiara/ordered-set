@@ -49,6 +49,7 @@ T = TypeVar("T", covariant=True)
 # SetLike[T] is either a set of elements of type T, or a sequence, which
 # we will convert to a StableSet or to an OrderedSet by adding its elements in order.
 SetLike = Union[AbstractSet[T], Sequence[T]]
+StableSetLike = Union["StableSet[T]", Sequence[T]]
 SetInitializer = Union[AbstractSet[T], Sequence[T], Iterable[T]]
 
 
@@ -598,15 +599,15 @@ class StableSet(MutableSet[T], Sequence[T]):
             [item for item in self._map if item not in items_to_remove] + items_to_add
         )
 
-    def issubset(self, other: SetLike[T]) -> bool:
+    def issubset(self: SetLike[T], other: SetLike[T]) -> bool:
         """
         Report whether another set contains this set.
 
         Example:
-            >>> StableSet([1, 2, 3]).issubset({1, 2})
-            False
             >>> StableSet([1, 2, 3]).issubset({1, 2, 3, 4})
             True
+            >>> StableSet([1, 2, 3]).issubset({1, 2})
+            False
             >>> StableSet([1, 2, 3]).issubset({1, 4, 3, 5})
             False
         """
@@ -614,15 +615,15 @@ class StableSet(MutableSet[T], Sequence[T]):
             return False
         return all(item in other for item in self)
 
-    def issuperset(self, other: SetLike[T]) -> bool:
+    def issuperset(self: SetLike[T], other: SetLike[T]) -> bool:
         """
         Report whether this set contains another set.
 
         Example:
-            >>> StableSet([1, 2]).issuperset([1, 2, 3])
-            False
             >>> StableSet([1, 2, 3, 4]).issuperset({1, 2, 3})
             True
+            >>> StableSet([1, 2]).issuperset([1, 2, 3])
+            False
             >>> StableSet([1, 4, 3, 5]).issuperset({1, 2, 3})
             False
         """
@@ -630,26 +631,55 @@ class StableSet(MutableSet[T], Sequence[T]):
             return False
         return all(item in self for item in other)
 
-    def isorderedsubset(self: SetLike, other: SetLike, non_consecutive: bool = False):
+    def isorderedsubset(self: StableSetLike[T], other: StableSetLike[T]):
+        """
+        Report whether another set contains this set in the same order.
+
+        Example:
+            >>> StableSet([1, 2, 3]).isorderedsubset([7, 1, 2, 3, 4])
+            True
+            >>> StableSet([1, 2, 3]).isorderedsubset([7, 1, 3, 2, 4])
+            False
+            >>> StableSet([1, 2, 3]).isorderedsubset([1, 2])
+            False
+        """
         if len(self) > len(other):
             return False
-        if non_consecutive:
-            i = 0
-            self_len = len(self)
-            for other_item in other:
-                if other_item == self[i]:
-                    i += 1
-                    if i == self_len:
-                        return True
-            return False
-        else:
-            for self_item, other_item in zip(self, other):
-                if not self_item == other_item:
-                    return False
-            return True
+        i = 0
+        self_len = len(self)
+        for other_item in other:
+            if other_item == self[i]:
+                i += 1
+                if i == self_len:
+                    return True
+        return False
 
-    def isorderedsuperset(self, other: SetLike, non_consecutive: bool = False):
-        return StableSet.isorderedsubset(other, self, non_consecutive)
+    def isorderedsuperset(self: StableSetLike[T], other: StableSetLike[T]):
+        return StableSet.isorderedsubset(other, self)
+
+    def isprefix(self: StableSetLike[T], other: StableSetLike[T]):
+        """
+        Report whether this set is a prefix of another set.
+
+        Example:
+            >>> StableSet([1, 2]).isprefix([1, 2, 3])
+            True
+            >>> StableSet([1, 2, 3]).isprefix([1, 2])
+            False
+            >>> StableSet([1, 2, 3]).isprefix([1, 2, 3])
+            True
+            >>> StableSet([1, 2]).isprefix([4, 1, 2, 3])
+            False
+        """
+        if len(self) > len(other):
+            return False
+        for self_item, other_item in zip(self, other):
+            if not self_item == other_item:
+                return False
+        return True
+
+    def ispostfix(self: StableSetLike[T], other: StableSetLike[T]):
+        return StableSet.isprefix(other, self)
 
 
 class StableSetEq(StableSet[T]):
