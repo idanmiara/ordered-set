@@ -2,6 +2,10 @@
 
 Significant changes in major and minor releases of this library:
 
+## Version 5.2.2 (May 2025)
+- Rebased fork on upstream OrderedSet 4.1.1
+- Some minor fixes
+
 ## Version 5.2 (February 2022)
 
 - Major refactor
