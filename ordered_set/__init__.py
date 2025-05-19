@@ -41,7 +41,7 @@ from typing import (
 )
 
 SLICE_ALL = slice(None)
-__version__ = "5.2.0"
+__version__ = "5.2.2"
 
 
 T = TypeVar("T", covariant=True)
@@ -352,8 +352,11 @@ class StableSet(MutableSet[T], Sequence[T]):
             >>> print(oset)
             StableSet([1, 2, 3, 5, 4])
         """
-        other_map = dict.fromkeys(sequence)
-        self._map.update(other_map)
+        try:
+            other_map = dict.fromkeys(sequence)
+            self._map.update(other_map)
+        except TypeError:
+            raise ValueError(f"Argument needs to be an iterable, got {type(sequence)}")
         return len(self._map) - 1
 
     @overload
@@ -882,8 +885,11 @@ class OrderedSet(StableSet[T]):
 
     def update(self, sequence: SetLike[T]) -> int:
         item_index = 0
-        for item in sequence:
-            item_index = self.add(item)
+        try:
+            for item in sequence:
+                item_index = self.add(item)
+        except TypeError:
+            raise ValueError(f"Argument needs to be an iterable, got {type(sequence)}")
         return item_index
 
     def index(self, key):
@@ -908,7 +914,7 @@ class OrderedSet(StableSet[T]):
         del self._map[elem]
         return elem
 
-    def move_to_end(self, key):
+    def move_to_end(self, key) -> None:
         if key in self:
             self.discard(key)
             self.add(key)
